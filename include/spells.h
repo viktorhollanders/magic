@@ -44,8 +44,8 @@ class Spell {
 
 // Attack
 
-class Slach : public Spell {
-  Slach(string name, SpellPower spellPower);
+class Slash : public Spell {
+  Slash(string name, SpellPower spellPower);
 };
 
 class Strangle : public Spell {
@@ -56,6 +56,10 @@ class StoneShower : public Spell {
   StoneShower(string name, SpellPower spellPower);
 };
 
+class ThunderBolt : public Spell {
+  ThunderBolt(string name, SpellPower spellPower);
+};
+
 class WindBlast : public Spell {
   WindBlast(string name, SpellPower spellPower);
 };
@@ -64,12 +68,20 @@ class WaterBlast : public Spell {
   WaterBlast(string name, SpellPower spellPower);
 };
 
+class FireBlast : public Spell{
+  FireBlast(string name, SpellPower spellPower);
+};
+
 class ArrowShower : public Spell {
   ArrowShower(string name, SpellPower spellPower);
 };
 
-class ThunderBolt : public Spell {
-  ThunderBolt(string name, SpellPower spellPower);
+class DragonFire : public Spell {
+  DragonFire(string name, SpellPower spellPower);
+};
+
+class LightningStike : public Spell {
+  LightningStike(string name , SpellPower spellPower);
 };
 
 // healing
@@ -85,10 +97,8 @@ class LifeSurge : public Spell {
   LifeSurge(string name, SpellPower spellPower);
 };
 
-
-
-
-
-
+class HealthTheft : public Spell{
+  HealthTheft(string nema, SpellPower spellPower);
+};
 
 #endif
