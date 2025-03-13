@@ -6,6 +6,8 @@
     "*.ts": "typescript",
     "*.tsx": "typescriptreact",
     "typeinfo": "cpp",
-    "map": "cpp"
+    "map": "cpp",
+    "iosfwd": "cpp",
+    "vector": "cpp"
   }
 }

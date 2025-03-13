@@ -5,17 +5,20 @@ using namespace std;
 
 random_device rd;
 
-Spell::Spell(string spellName, SpellPower spellPower) {};
+Spell::Spell(string spellName, SpellPower spellPower, ManaCost mana) {};
 
-string Spell::getSpellName() const {
+string Spell::getSpellName() const
+{
   return spellName;
 }
 
-SpellPower Spell::getSpellPower() const {
+SpellPower Spell::getSpellPower() const
+{
   return spellPower;
 }
 
-void Spell::calculatePower () {
+void Spell::calculatePower()
+{
   SpellPower power = getSpellPower();
   mt19937 gen(rd);
   int minDamage = strenghtMap.at(power).min;
@@ -24,38 +27,39 @@ void Spell::calculatePower () {
   int damage = distrib(gen);
 }
 
-// Spells
-// Weak
-Slash::Slash(string name, SpellPower power) : Spell("Slash", SpellPower::WEAK) {};
+// SPELLS
+// Starter spells
+Slash::Slash(string name, SpellPower power, ManaCost mana) : Spell("Slash", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-Strangle::Strangle(string name, SpellPower power) : Spell("Stranlge", SpellPower::WEAK) {};
+Mend::Mend(string name, SpellPower power, ManaCost mana) : Spell("Heal", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-StoneShower::StoneShower(string name, SpellPower power) : Spell("Stone shower", SpellPower::WEAK) {};
+RazorLeaves::RazorLeaves(string name, SpellPower power, ManaCost mana) : Spell("Razor leaves", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-Mend::Mend(string name, SpellPower power) : Spell("Heal", SpellPower::WEAK) {};
+Bind::Bind(string name, SpellPower power, ManaCost mana) : Spell("Bind", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-ThunderBolt::ThunderBolt(string name, SpellPower power) : Spell("Thunder bolt", SpellPower::WEAK) {};
+// Beginner
+Strangle::Strangle(string name, SpellPower power, ManaCost mana) : Spell("Stranlge", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-// Medium
-WindBlast::WindBlast(string name, SpellPower power) : Spell("Wind blast", SpellPower::MEDIUM) {};
+StoneShower::StoneShower(string name, SpellPower power, ManaCost mana) : Spell("Stone shower", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-WaterBlast::WaterBlast(string name, SpellPower power) : Spell("Water blast", SpellPower::MEDIUM) {};
+ThunderBolt::ThunderBolt(string name, SpellPower power, ManaCost mana) : Spell("Thunder bolt", SpellPower::BEGINNER, ManaCost::ONE) {};
 
-FireBlast::FireBlast(string name, SpellPower power) : Spell("Fire blast", SpellPower::MEDIUM) {};
+// Intermediate
+WindBlast::WindBlast(string name, SpellPower power, ManaCost mana) : Spell("Wind blast", SpellPower::INTERMEDIATE, ManaCost::TWO) {};
 
-// High
-ArrowShower::ArrowShower(string name, SpellPower power) : Spell("Arrow shower", SpellPower::MEDIUM) {};
+WaterBlast::WaterBlast(string name, SpellPower power, ManaCost mana) : Spell("Water blast", SpellPower::INTERMEDIATE, ManaCost::TWO) {};
 
+FireBlast::FireBlast(string name, SpellPower power, ManaCost mana) : Spell("Fire blast", SpellPower::INTERMEDIATE, ManaCost::TWO) {};
 
-DragonFire::DragonFire(string name, SpellPower power) : Spell("Dragon Fire", SpellPower::HIGH) {};
+ArrowShower::ArrowShower(string name, SpellPower power, ManaCost mana) : Spell("Arrow shower", SpellPower::INTERMEDIATE, ManaCost::TWO) {};
 
-LightningStike::LightningStike(string name, SpellPower power) : Spell("Dragon firle", SpellPower::HIGH) {} ;
+Heal::Heal(string name, SpellPower power, ManaCost mana) : Spell("Heal", SpellPower::INTERMEDIATE, ManaCost::TWO) {};
 
-Heal::Heal(string name, SpellPower power) : Spell("Heal", SpellPower::HIGH) {};
+// Advanced
+DragonFire::DragonFire(string name, SpellPower power, ManaCost mana) : Spell("Dragon Fire", SpellPower::ADVANCED, ManaCost::THREE) {};
 
+LightningStike::LightningStike(string name, SpellPower power, ManaCost mana) : Spell("Dragon firle", SpellPower::ADVANCED, ManaCost::THREE) {};
 
+LifeSurge::LifeSurge(string name, SpellPower power, ManaCost mana) : Spell("Life surge", SpellPower::ADVANCED, ManaCost::THREE) {};
 
-
-
-
-
+HealthTheft::HealthTheft(string name, SpellPower power, ManaCost mana) : Spell("Helath theaft", SpellPower::ADVANCED, ManaCost::THREE) {};
