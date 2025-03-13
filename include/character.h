@@ -12,9 +12,9 @@ class Character
 {
   string type;
   string characterName;
-  int health = 25;
-  int energy = 10;
-  int level = 0;
+  int health;
+  int mana;
+  int level;
   vector<shared_ptr<Spell>> spellBook;
 
 public:
@@ -22,36 +22,41 @@ public:
     this->type = type;
     this->characterName = characterName;
     this->health = health;
-    this->energy = energy;
+    this->mana = mana;
     this->level = level;
+    this->spellBook = spellBook;
   };
   ~Character();
 
   // Getter methods for character
   string getType() const;
   string getName() const;
-  string getHealth() const;
-  string getEnergy() const;
-  string getLevel() const;
+  int getHealth() const;
+  int getMana() const;
+  int getLevel() const;
 
   // Setters for character
   void takeDamage(int amount);
   void heal(int amount);
-  void spendEnergy(int amount);
+  void addMana(int amount);
+  void spendMana(int amount);
   void levleUp();
 
   // Getter methods for spells
   int spellCount() const;
-  void addSpell();
-  Spell* getSepll();
+  void addSpell(shared_ptr<Spell> spell);
+  Spell* getSpell(string spell);
 
-  void displaySpellBood();
 
-  virtual void ability() const;
+  void displaySpellBood() const;
+
+  virtual void ability();
 };
 
 class Mage : public Character {
-  Mage(string type, string name) : Character("Mage", name) {};
+  public:
+    Mage(string type, string name);
+    void ability() override;
 };
 
 #endif

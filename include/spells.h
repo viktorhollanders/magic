@@ -1,27 +1,43 @@
 #ifndef SPELLS_H
 #define SPELLS_H
 #include <string>
+#include <map>
 
 using namespace std;
+
+enum class SpellPower {
+  WEAK, MEDIUM, HIGH
+};
+
+struct Range {
+  int min;
+  int max;
+};
 
 class Spell {
   protected:
     string spellName;
-    int spellStrength;
+    SpellPower spellPower;
 
-  public:
-    Spell(string name, int strength) {
-      this->spellName = name;
-      this->spellStrength = strength;
+    const map<SpellPower, Range> strenghtMap = {
+      {SpellPower::WEAK, {0,5}},
+      {SpellPower::MEDIUM, {6,12}},
+      {SpellPower::HIGH, {13,20}}
     };
 
+
+  public:
+    Spell(string name, SpellPower spellPower) {
+      this->spellName = name;
+      this->spellPower = spellPower;
+    };
     ~Spell();
 
     string getSpellName() const;
-    string getSpellStrenght() const;
+    SpellPower getSpellPower() const;
 
     virtual void spellEffect();
-    void castSpell();
+    virtual void calculatePower();
   };
 
 // Spells
@@ -29,44 +45,44 @@ class Spell {
 // Attack
 
 class Slach : public Spell {
-  Slach(string name, int strenght);
+  Slach(string name, SpellPower spellPower);
 };
 
 class Strangle : public Spell {
-  Strangle(string name, int strenght);
+  Strangle(string name, SpellPower spellPower);
 };
 
 class StoneShower : public Spell {
-  StoneShower(string name, int strenght);
+  StoneShower(string name, SpellPower spellPower);
 };
 
 class WindBlast : public Spell {
-  WindBlast(string name, int strenght);
+  WindBlast(string name, SpellPower spellPower);
 };
 
 class WaterBlast : public Spell {
-  WaterBlast(string name, int strenght);
+  WaterBlast(string name, SpellPower spellPower);
 };
 
 class ArrowShower : public Spell {
-  ArrowShower(string name, int strenght);
+  ArrowShower(string name, SpellPower spellPower);
 };
 
 class ThunderBolt : public Spell {
-  ThunderBolt(string name, int strenght);
+  ThunderBolt(string name, SpellPower spellPower);
 };
 
 // healing
 class Mend : public Spell {
-  Mend(string name, int strenght);
+  Mend(string name, SpellPower spellPower);
 };
 
 class Heal : public Spell {
-  Heal(string name, int strenght);
+  Heal(string name, SpellPower spellPower);
 };
 
 class LifeSurge : public Spell {
-  LifeSurge(string name, int strenght);
+  LifeSurge(string name, SpellPower spellPower);
 };
 
 

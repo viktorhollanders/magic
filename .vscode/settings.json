@@ -5,6 +5,7 @@
     "*.jsx": "javascriptreact",
     "*.ts": "typescript",
     "*.tsx": "typescriptreact",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "map": "cpp"
   }
 }
