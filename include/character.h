@@ -35,14 +35,14 @@ public:
   int takeDamage(int currentHealth, int damage);
   int heal(int currentHealth, int heal);
   void addMana(int amount);
-  void spendMana(int amount);
+  int spendMana(int currentMana, int mana);
   void levleUp();
 
   // Getter methods for spells
   int spellCount() const;
   vector<shared_ptr<Spell>> &getSpellBook();
   void addSpell(shared_ptr<Spell> spell);
-  Spell *getSpell(string spell);
+  shared_ptr<Spell> getSpell(string spell);
 
   string displaySpellBook();
   string displayPlayerInfo();

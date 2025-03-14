@@ -4,11 +4,11 @@
 using namespace std;
 
 Spell::Spell() {};
-Spell::Spell(string name, SpellPower spellPower, ManaCost mana)
+Spell::Spell(string name, SpellPower spellPower, ManaCost manaCost)
 {
   this->spellName = name;
   this->spellPower = spellPower;
-  this->manaCost = mana;
+  this->manaCost = manaCost;
 };
 
 Spell::~Spell() {};
@@ -21,6 +21,10 @@ string Spell::getSpellName() const
 SpellPower Spell::getSpellPower() const
 {
   return spellPower;
+}
+
+ManaCost Spell::getSpellMana() const {
+  return manaCost;
 }
 
 int Spell::calculatePower()

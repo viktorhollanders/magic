@@ -50,6 +50,7 @@ public:
 
   string getSpellName() const;
   SpellPower getSpellPower() const;
+  ManaCost getSpellMana() const;
 
   virtual int calculatePower();
 };

@@ -45,9 +45,12 @@ int Character::heal(int currentHealth, int heal)
   return currentHealth + heal;
 }
 
-void Character::spendMana(int amount)
+int Character::spendMana(int currentMana, int mana)
 {
-  mana -= amount;
+  int newMana = currentMana - mana;
+  if (newMana < 0)
+    newMana = 0;
+  return newMana;
 }
 
 void Character::addMana(int amount)
@@ -70,13 +73,13 @@ void Character::addSpell(shared_ptr<Spell> spell)
   spellBook.push_back(spell);
 }
 
-Spell *Character::getSpell(string castSpell)
+shared_ptr<Spell> Character::getSpell(string spell)
 {
   for (const auto &spellPtr : spellBook)
   {
-    if (spellPtr->getSpellName() == castSpell)
+    if (spellPtr->getSpellName() == spell)
     {
-      return spellPtr.get();
+      return spellPtr;
     }
   }
   return nullptr;

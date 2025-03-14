@@ -8,14 +8,14 @@
 Duel::Duel(shared_ptr<Character> player1, shared_ptr<Character> player2) : p1(player1), p2(player2) {};
 Duel::~Duel() {};
 
-shared_ptr<Character> Duel::initialPlayer()
+void Duel::initialPlayer()
 {
   random_device rd;
   mt19937 gen(rd());
   uniform_int_distribution<> distrib(1, 2);
   int num = distrib(gen);
   currentPlayer = (num == 1) ? p1 : p2;
-  return currentPlayer;
+  currentTarget = (currentPlayer == p1) ? p2 : p1;
 };
 
 void Duel::initializeDuel()
@@ -35,13 +35,15 @@ void Duel::initializeDuel()
   initialPlayer();
 }
 
-shared_ptr<Character> Duel::swithcPlayer(shared_ptr<Character> current)
+void Duel::switchPlayer(shared_ptr<Character> current)
 {
-  return (current == p1) ? p2 : p1;
+  currentPlayer = (current == p1) ? p2 : p1;
+  currentTarget = (currentPlayer == p1) ? p2 : p1;
 };
 
-void applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, Spell *spell) {
-
+void Duel::applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell)
+{
+  target->takeDamage(p2CurrentHelaht, spell->calculatePower());
 };
 
 void Duel::playRound()
@@ -49,9 +51,9 @@ void Duel::playRound()
 
   auto playerSpellBook = currentPlayer->getSpellBook();
   string chosenSpellName;
-  Spell choseSpell;
+  shared_ptr<Spell> chosenSpell;
 
-  cout << "== " << currentPlayer->getName() << "turn ==" << endl;
+  cout << "== " << currentPlayer->getName() << " turn ==" << endl;
   cout << "Available spells: " << endl;
   for (int i = 0; i < playerSpellBook.size(); i++)
   {
@@ -85,7 +87,9 @@ void Duel::playRound()
 
   chosenSpellName = playerSpellBook[userChoice]->getSpellName();
 
-  currentPlayer->getSpell(chosenSpellName);
+  chosenSpell = currentPlayer->getSpell(chosenSpellName);
 
-  swithcPlayer(currentPlayer);
+  applySpellEffect(currentPlayer, currentTarget, chosenSpell);
+
+  switchPlayer(currentPlayer);
 }
