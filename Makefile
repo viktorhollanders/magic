@@ -1,13 +1,12 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++20
 CXXDEBUGFLAGS = -ggdb -fsanitize=address
 
 SRC     := src
 INCLUDE := include
 LIB     := lib
-LIBRARIES :=
-EXECUTABLE := encoder
-OUTPUTDIR := output
+OBJECTS := obj
+EXECUTABLE := main
 
 .PHONY: all run debug clean fresh test
 

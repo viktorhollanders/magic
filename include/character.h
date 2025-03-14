@@ -21,15 +21,8 @@ protected:
   const string type;
 
 public:
-  Character(string characterName, string type)
-  {
-    this->characterName = characterName;
-    this->health = health;
-    this->mana = mana;
-    this->level = level;
-    this->spellBook = spellBook;
-  };
-  ~Character();
+  Character(string name, string type);
+  virtual ~Character();
 
   // Getter methods for character
   string getType() const;
@@ -39,20 +32,20 @@ public:
   int getLevel() const;
 
   // Setters for character
-  void takeDamage(int amount);
-  void heal(int amount);
+  int takeDamage(int currentHealth, int damage);
+  int heal(int currentHealth, int heal);
   void addMana(int amount);
   void spendMana(int amount);
   void levleUp();
 
   // Getter methods for spells
   int spellCount() const;
+  vector<shared_ptr<Spell>> &getSpellBook();
   void addSpell(shared_ptr<Spell> spell);
   Spell *getSpell(string spell);
 
-  void displaySpellBood() const;
-
-  virtual void ability();
+  string displaySpellBook();
+  string displayPlayerInfo();
 };
 
 class Mage : public Character
@@ -62,7 +55,7 @@ private:
 
 public:
   Mage(string name);
-  void ability() override;
+  ~Mage();
 };
 
 #endif

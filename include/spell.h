@@ -7,6 +7,7 @@ using namespace std;
 
 enum class SpellPower
 {
+  STARTER,
   BEGINNER,
   INTERMEDIATE,
   ADVANCED
@@ -43,19 +44,14 @@ protected:
       {ManaCost::THREE, 3}};
 
 public:
-  Spell(string name, SpellPower spellPower, ManaCost mana)
-  {
-    this->spellName = name;
-    this->spellPower = spellPower;
-    this->manaCost = mana;
-  };
+  Spell();
+  Spell(string name, SpellPower spellPower, ManaCost mana);
   ~Spell();
 
   string getSpellName() const;
   SpellPower getSpellPower() const;
 
-  virtual void spellEffect(); // NEED TO IMPLEMENT
-  virtual void calculatePower();
+  virtual int calculatePower();
 };
 
 // SPELLS
@@ -63,86 +59,118 @@ public:
 // Starter spells
 class Slash : public Spell
 {
-  Slash(string name, SpellPower power, ManaCost mana);
+public:
+  Slash();
+  virtual ~Slash() {};
 };
 
 class Mend : public Spell
 {
-  Mend(string name, SpellPower power, ManaCost mana);
+public:
+  Mend();
+  virtual ~Mend() {};
 };
 
 class RazorLeaves : public Spell
 {
-  RazorLeaves(string name, SpellPower power, ManaCost mana);
+public:
+  RazorLeaves();
+  virtual ~RazorLeaves() {};
 };
 
 class Bind : public Spell
 {
-  Bind(string name, SpellPower power, ManaCost mana);
+public:
+  Bind();
+  virtual ~Bind() {};
 };
 
 // Beginner
 class Strangle : public Spell
 {
-  Strangle(string name, SpellPower power, ManaCost mana);
+public:
+  Strangle();
+  virtual ~Strangle() {};
 };
 
 class StoneShower : public Spell
 {
-  StoneShower(string name, SpellPower power, ManaCost mana);
+public:
+  StoneShower();
+  virtual ~StoneShower() {};
 };
 
 class ThunderBolt : public Spell
 {
-  ThunderBolt(string name, SpellPower power, ManaCost mana);
+public:
+  ThunderBolt();
+  virtual ~ThunderBolt() {};
 };
 
 // Intermediate
 
 class WindBlast : public Spell
 {
-  WindBlast(string name, SpellPower power, ManaCost mana);
+public:
+  WindBlast();
+  virtual ~WindBlast() {};
 };
 
 class WaterBlast : public Spell
 {
-  WaterBlast(string name, SpellPower power, ManaCost mana);
+public:
+  WaterBlast();
+  virtual ~WaterBlast() {};
 };
 
 class FireBlast : public Spell
 {
-  FireBlast(string name, SpellPower power, ManaCost mana);
+public:
+  FireBlast();
+  virtual ~FireBlast() {};
 };
 
 class ArrowShower : public Spell
 {
-  ArrowShower(string name, SpellPower power, ManaCost mana);
+public:
+  ArrowShower();
+  virtual ~ArrowShower() {};
 };
 
 class Heal : public Spell
 {
-  Heal(string name, SpellPower power, ManaCost mana);
+public:
+  Heal();
+  virtual ~Heal() {};
 };
 
 // Advanced
 class DragonFire : public Spell
 {
-  DragonFire(string name, SpellPower power, ManaCost mana);
+public:
+  DragonFire();
+  virtual ~DragonFire() {};
 };
 
 class LightningStike : public Spell
 {
-  LightningStike(string name, SpellPower power, ManaCost mana);
+public:
+  LightningStike();
+  virtual ~LightningStike() {};
 };
 
 class LifeSurge : public Spell
 {
-  LifeSurge(string name, SpellPower power, ManaCost mana);
+public:
+  LifeSurge();
+  virtual ~LifeSurge() {};
 };
 
 class HealthTheft : public Spell
 {
-  HealthTheft(string name, SpellPower power, ManaCost mana);
+public:
+  HealthTheft();
+  virtual ~HealthTheft() {};
 };
 
 #endif

@@ -1,36 +1,44 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "spell.h"
 #include "character.h"
+#include "spellStore.h"
 
 #include <memory>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-class Game {
-  private:
+class Game
+{
+private:
   const int numPlayers = 2;
-  const int numSpells = 3;
+  const int numStarterSpells = 3;
+  string clearCommand;
 
-  protected:
-    vector<shared_ptr<Character>> players;
+protected:
+  void choseSpells(shared_ptr<Character> character);
+  void createCharacter();
 
-  public:
-    Game();
-    ~Game();
+public:
+  vector<shared_ptr<Character>> players;
+  Game();
+  ~Game();
 
-    // Add players
-    void createCharacter();
-    void choseSpells(shared_ptr<Character> character);
-    void addPlayers();
+  // Clear screan
+  void clearScrean();
 
-    void startGame();
-    void duel();
-    void updatePlayer();
+  // Add players
+  void addPlayers();
 
-    void saveGame();
-    void loadGame();
+  void startGame();
+  void duel();
+  void updatePlayer();
+
+  void saveGame();
+  void loadGame();
 };
 
 #endif

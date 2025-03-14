@@ -8,6 +8,11 @@
     "typeinfo": "cpp",
     "map": "cpp",
     "iosfwd": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "memory": "cpp",
+    "string": "cpp",
+    "iostream": "cpp",
+    "ostream": "cpp",
+    "ratio": "cpp"
   }
 }

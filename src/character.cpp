@@ -3,7 +3,9 @@
 
 using namespace std;
 
-Character::Character(string characterName, string type) : type(type), characterName(characterName), health(35), mana(10), level(0) {};
+Character::Character(string characterName, string type) : characterName(characterName), health(35), mana(10), level(0), type(type) {};
+
+Character::~Character() {}
 
 string Character::getType() const
 {
@@ -30,14 +32,17 @@ int Character::getLevel() const
   return level;
 }
 
-void Character::takeDamage(int amount)
+int Character::takeDamage(int currentHealth, int damage)
 {
-  health -= amount;
+  int newHealth = currentHealth - damage;
+  if (newHealth < 0)
+    newHealth = 0;
+  return newHealth;
 }
 
-void Character::heal(int amount)
+int Character::heal(int currentHealth, int heal)
 {
-  health += amount;
+  return currentHealth + heal;
 }
 
 void Character::spendMana(int amount)
@@ -55,12 +60,17 @@ int Character::spellCount() const
   return spellBook.size();
 }
 
+vector<shared_ptr<Spell>> &Character::getSpellBook()
+{
+  return spellBook;
+};
+
 void Character::addSpell(shared_ptr<Spell> spell)
 {
   spellBook.push_back(spell);
 }
 
-Spell* Character::getSpell(string castSpell)
+Spell *Character::getSpell(string castSpell)
 {
   for (const auto &spellPtr : spellBook)
   {
@@ -72,10 +82,40 @@ Spell* Character::getSpell(string castSpell)
   return nullptr;
 }
 
-// Creatures
-Mage::Mage(string name) : Character(name, "Mage") {}
-
-void Mage::ability()
+string Character::displaySpellBook()
 {
-  addMana(5);
+  string spells;
+
+  for (int i = 0; i < spellBook.size(); i++)
+  {
+    if (i == spellBook.size() - 1)
+    {
+      spells += spellBook[i]->getSpellName();
+    }
+    else
+    {
+      spells += spellBook[i]->getSpellName();
+      spells += ", ";
+    }
+  }
+
+  return spells;
 }
+
+string Character::displayPlayerInfo()
+{
+  string playerStats;
+  playerStats += characterName + "\n";
+  playerStats += "Spell count: " + to_string(spellCount()) + "\n";
+  playerStats += "Spells: " + displaySpellBook() + "\n";
+  playerStats += "Health: " + to_string(getHealth()) + "\n";
+  playerStats += "Level: " + to_string(getLevel()) + "\n";
+  playerStats += "Mana: " + to_string(getMana()) + "\n";
+  playerStats += "------------------------";
+
+  return playerStats;
+}
+
+// Mage
+Mage::Mage(string name) : Character(name, "Mage") {};
+Mage::~Mage() {};

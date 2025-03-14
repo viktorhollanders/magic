@@ -3,52 +3,120 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <limits>
+#include <chrono>
+#include <thread>
 
 #include "character.h"
 #include "game.h"
 #include "spell.h"
+#include "spellStore.h"
+#include "duel.h"
 
 using namespace std;
 
-void Game::choseSpells(shared_ptr<Character> character) {
+Game::Game()
+{
+#ifdef _WIN32
+  clearCommand = "cls";
+#else
+  clearCommand = "clear";
+#endif
+};
+
+Game::~Game() {};
+
+void Game::clearScrean()
+{
+  system(clearCommand.c_str());
+}
+
+void Game::choseSpells(shared_ptr<Character> character)
+{
   // get starter spells
+  auto starterSpells = SpellStore::getStarterSpells();
 
   // show optoins
-  // needs to be a refference or new instance?
-  // remove the one that has been chosen.
+  for (int i = 0; i < numStarterSpells; i++)
+  {
 
-  shared_ptr<Spell> chosenSpell;
-  
-  for (int i = 0; i < Game::numSpells; i++) {
-    character->addSpell(chosenSpell);
+    cout << "You can chose one of these " << starterSpells.size() << " spells" << endl;
+    for (int j = 0; j < starterSpells.size(); j++)
+    {
+      cout << j + 1 << "." << starterSpells[j]->getSpellName() << endl;
+    }
+    cout << "Pick a spell: ";
+    int userChoice;
+    cin >> userChoice;
+
+    while (userChoice < 1 || userChoice > starterSpells.size() || cin.fail())
+    {
+      if (cin.fail())
+      {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      }
+      else
+      {
+        cin.ignore();
+      }
+      cout << "Invalid option. Pleas enter a number between 1 and " << (starterSpells.size()) << endl;
+      cout << "You can chose one of these " << starterSpells.size() << " spells" << endl;
+      for (int j = 0; j < starterSpells.size(); j++)
+      {
+        cout << j + 1 << "." << starterSpells[j]->getSpellName() << endl;
+      }
+      cin >> userChoice;
+    }
+
+    // Add the spell to the mages spell book
+    character->addSpell(starterSpells[userChoice - 1]);
+    // Removes the spell that has been chosen
+    starterSpells.erase(starterSpells.begin() + (userChoice - 1));
   }
 }
 
 void Game::createCharacter()
 {
   string name;
+  cout << "Reveal the arcane title that shall echo through the halls of wizardry: ";
   cin >> name;
 
-  Mage mage(name);
+  shared_ptr<Character> character = make_shared<Mage>(name);
 
-  players.push_back(make_shared<Mage>(mage));
+  players.push_back(character);
 
-  cout << "Welcome " << mage.getName() << endl;
-  cout << "You will be a grate " << mage.getType() << endl;
-  cout << "Here are your current stats " << endl;
-  cout << "Health: " << mage.getHealth() << endl;
-  cout << "Mana: " << mage.getMana() << endl;
-  cout << "Level: " << mage.getLevel() << endl;
+  cout << "Welcome " << character->getName() << endl;
 
   cout << "Now, behold the moment of destiny! Choose your arcane powers with great wisdom, for your selection shall determine your fate!" << endl;
-  // chose spells
+  choseSpells(character);
+
+  cout << "MAGNIFICENT CHOICES, " << character->getName() << "!" << endl;
+  cout << "These mighty incantations now reside in your arcane tome: ";
+
+  cout << character->displaySpellBook() << endl;
+  this_thread::sleep_for(std::chrono::seconds(3));
 }
 
 void Game::addPlayers()
 {
-  for (int i = 0; i < Game::numPlayers; i++)
+  for (int i = 0; i < numPlayers; i++)
   {
-    Game::addPlayers();
+    clearScrean();
+    createCharacter();
   }
 }
 
+void Game::duel()
+{
+  clearScrean();
+  cout << players.size() << endl;
+  if (players.size() >= 2)
+  {
+    Duel duel(players[0], players[1]);
+
+    duel.initializeDuel();
+    clearScrean();
+    duel.playRound();
+  }
+}
