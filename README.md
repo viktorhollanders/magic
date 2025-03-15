@@ -14,13 +14,6 @@ The spells are split into three categories: Attack spells, defense spells, and h
 
 So go and select your arcane name and take your place among the legendary Mages of the Dueling Grounds, where cosmic powers clash and only the most cunning will ascend to immortal glory!
 
-After you have build the game run:
-
-```sh
-  make startGame
-```
-
-to play
 
 ## Building
 
@@ -30,7 +23,7 @@ To build the game run:
   make
 ```
 
-To start the game:
+To play the game:
 
 ```sh
   make startGame
