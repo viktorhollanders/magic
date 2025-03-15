@@ -18,6 +18,7 @@ private:
   const int numStarterSpells = 3;
   string clearCommand;
 
+  SpellStore newSpellStore;
 
 protected:
   void choseSpells(shared_ptr<Character> character);
@@ -31,14 +32,16 @@ public:
   // Clear screan
   void clearScrean();
 
-  void gameOptions(bool gameLoop);
-
   // Add players
   void addPlayers();
+  int getNumStarterSpells();
+  SpellStore getSpellStore();
+  void gameOptions(bool &gameLoop);
 
   void startGame();
   void duel();
   void updatePlayer();
+  void canPlayerUpdate();
 
   void saveGame();
   void loadGame();

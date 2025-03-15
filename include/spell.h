@@ -29,7 +29,7 @@ enum class ManaCost
 enum class SpellType
 {
   ATTACK,
-  DEFENCE,
+  DEFENSE,
   HEAL
 };
 
@@ -59,6 +59,7 @@ public:
 
   string getSpellName() const;
   SpellPower getSpellPower() const;
+  SpellType getSpellType() const;
 
   int calculatePower();
 };

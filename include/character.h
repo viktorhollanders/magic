@@ -15,8 +15,9 @@ private:
   int health;
   int mana;
   int level;
+  int levelUpCounter;
+  int defense;
   vector<shared_ptr<Spell>> spellBook;
-  int updateCounter;
 
 protected:
   const string type;
@@ -31,19 +32,23 @@ public:
   int getHealth() const;
   int getMana() const;
   int getLevel() const;
+  shared_ptr<Spell> getSpell(string spell);
+  int spellCount() const;
+  vector<shared_ptr<Spell>> &getSpellBook();
+  int getLevelUpCointer();
+  int getDefense();
 
   // Setters for character
   int takeDamage(int currentHealth, int damage);
   int heal(int currentHealth, int heal);
   void addMana(int amount);
   int spendMana(int currentMana, int mana);
-  void levleUp(int stats);
+  void levleUp(string stat);
+  void addSpell(shared_ptr<Spell> spell);
+  void setLevelUpCounter();
+  void setDefense(int amount);
 
   // Getter methods for spells
-  int spellCount() const;
-  vector<shared_ptr<Spell>> &getSpellBook();
-  void addSpell(shared_ptr<Spell> spell);
-  shared_ptr<Spell> getSpell(string spell);
 
   string displaySpellBook();
   string displayPlayerInfo();

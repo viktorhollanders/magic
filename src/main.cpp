@@ -11,10 +11,10 @@ int main()
 {
   Game newGame;
   newGame.clearScrean();
-  SpellStore newStore;
-  newStore.initializeDefaultSpells();
+
 
   newGame.addPlayers();
+  newGame.gameOptions(gameLoop);
 
   while (gameLoop)
   {

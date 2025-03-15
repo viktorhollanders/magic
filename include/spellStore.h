@@ -6,6 +6,7 @@
 #include <string>
 
 #include "spell.h"
+#include "character.h"
 
 using namespace std;
 
@@ -29,6 +30,10 @@ public:
   static const vector<shared_ptr<Spell>> &getBeginnerSpells();
   static const vector<shared_ptr<Spell>> &getIntermediateSpells();
   static const vector<shared_ptr<Spell>> &getAdvancedSpells();
+
+  void displaySpellBookByLevels(int numTiers);
+  vector<shared_ptr<Spell>> selectSpellTeir(int numTiers);
+  void choseSpells(shared_ptr<Character> character, const vector<shared_ptr<Spell>> &selectedSpellTier, int numChoises);
 };
 
 #endif

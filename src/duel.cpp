@@ -1,17 +1,17 @@
 #include <iostream>
-#include <random>
+#include <memory>
 
 #include "duel.h"
 #include "character.h"
 #include "spell.h"
 #include "utils.h"
+#include "spellStore.h"
 
-Duel::Duel(shared_ptr<Character> player1, shared_ptr<Character> player2) : p1(player1), p2(player2) {};
+Duel::Duel(shared_ptr<Character> player1, shared_ptr<Character> player2, SpellStore &store) : p1(player1), p2(player2), spellStore(store) {};
 Duel::~Duel() {};
 
 void Duel::initialPlayer()
 {
-
   int num = generateRandomNum(1, 2);
   currentPlayer = (num == 1) ? p1 : p2;
   currentTarget = (currentPlayer == p1) ? p2 : p1;
@@ -80,14 +80,35 @@ shared_ptr<Spell> Duel::choseSpell()
 
 void Duel::applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell)
 {
+  string spellType;
+
   int &targetHealth = (target == p1) ? p1CurrentHealht : p2CurrentHealht;
+
+  int &castertHealth = (caster == p1) ? p1CurrentHealht : p2CurrentHealht;
 
   int spellPower = spell->calculatePower();
 
-  targetHealth = target->takeDamage(targetHealth, spellPower);
+  if (spell->getSpellType() == SpellType::ATTACK)
+  {
+    int targetDefence = target->getDefense();
+    int totalHealth = targetDefence + targetHealth;
+    targetHealth = target->takeDamage(totalHealth, spellPower);
+    target->setDefense(0);
 
-  cout << caster->getName() << " casts " << spell->getSpellName()
-       << "with power: " << spellPower << " on " << target->getName() << "!" << endl;
+    spellType = "attacks";
+  }
+  if (spell->getSpellType() == SpellType::HEAL)
+  {
+    castertHealth = caster->heal(castertHealth, spellPower);
+    spellType = "heals";
+  }
+  if (spell->getSpellType() == SpellType::DEFENSE)
+  {
+    caster->setDefense(spellPower);
+    spellType = "defends";
+  }
+
+  cout << caster->getName() << " " << spellType << " using " << spell->getSpellName() << " with " << spellPower << " !" << endl;
 };
 
 void Duel::playRound()
@@ -120,6 +141,47 @@ void Duel::switchPlayer(shared_ptr<Character> current)
   currentPlayer = (current == p1) ? p2 : p1;
   currentTarget = (currentPlayer == p1) ? p2 : p1;
 };
+
+void Duel::updateWinner(shared_ptr<Character> winner)
+{
+  int currentCounter = winner->getLevelUpCointer();
+
+  if (currentCounter % 10 == 0)
+  {
+    winner->levleUp("level");
+  }
+
+  if (currentCounter % 2 == 0 && winner->getLevel() > 5)
+  {
+
+    if (winner->getLevel() > 25)
+    {
+      spellStore.displaySpellBookByLevels(3);
+      vector<shared_ptr<Spell>> spellVector = spellStore.selectSpellTeir(3);
+      spellStore.choseSpells(winner, spellVector, 1);
+    }
+    else if (winner->getLevel() > 12)
+    {
+      spellStore.displaySpellBookByLevels(2);
+      vector<shared_ptr<Spell>> spellVector = spellStore.selectSpellTeir(2);
+      spellStore.choseSpells(winner, spellVector, 1);
+    }
+    else
+    {
+      spellStore.displaySpellBookByLevels(1);
+      vector<shared_ptr<Spell>> spellVector = spellStore.selectSpellTeir(1);
+      spellStore.choseSpells(winner, spellVector, 1);
+    }
+  }
+  if (currentCounter % 4 == 0)
+  {
+    winner->levleUp("mana");
+  }
+  if (currentCounter % 6 == 0)
+  {
+    winner->levleUp("health");
+  }
+}
 
 void Duel::displayWinner()
 {

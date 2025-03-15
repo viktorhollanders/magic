@@ -3,10 +3,11 @@
 
 using namespace std;
 
-Character::Character(string characterName, string type) : characterName(characterName), health(35), mana(10), level(0), type(type) {};
+Character::Character(string characterName, string type) : characterName(characterName), health(35), mana(10), level(0), levelUpCounter(0), defense(0), type(type) {};
 
 Character::~Character() {}
 
+// Character getters
 string Character::getType() const
 {
   return type;
@@ -32,6 +33,39 @@ int Character::getLevel() const
   return level;
 }
 
+shared_ptr<Spell> Character::getSpell(string spell)
+{
+  for (const auto &spellPtr : spellBook)
+  {
+    if (spellPtr->getSpellName() == spell)
+    {
+      return spellPtr;
+    }
+  }
+  return nullptr;
+}
+
+int Character::spellCount() const
+{
+  return spellBook.size();
+}
+
+vector<shared_ptr<Spell>> &Character::getSpellBook()
+{
+  return spellBook;
+};
+
+int Character::getLevelUpCointer()
+{
+  return levelUpCounter;
+}
+
+int Character::getDefense()
+{
+  return defense;
+}
+
+// Character setters
 int Character::takeDamage(int currentHealth, int damage)
 {
   int newHealth = currentHealth - damage;
@@ -45,6 +79,11 @@ int Character::heal(int currentHealth, int heal)
   return currentHealth + heal;
 }
 
+void Character::addMana(int amount)
+{
+  mana += amount;
+}
+
 int Character::spendMana(int currentMana, int mana)
 {
   int newMana = currentMana - mana;
@@ -53,37 +92,38 @@ int Character::spendMana(int currentMana, int mana)
   return newMana;
 }
 
-void Character::addMana(int amount)
+void Character::levleUp(string stat)
 {
-  mana += amount;
+  if (stat == "health")
+  {
+    health += 1;
+  }
+  if (stat == "mana")
+  {
+    mana += 1;
+  }
+  if (stat == "level")
+  {
+    level += 1;
+  }
 }
-
-int Character::spellCount() const
-{
-  return spellBook.size();
-}
-
-vector<shared_ptr<Spell>> &Character::getSpellBook()
-{
-  return spellBook;
-};
 
 void Character::addSpell(shared_ptr<Spell> spell)
 {
   spellBook.push_back(spell);
 }
 
-shared_ptr<Spell> Character::getSpell(string spell)
+void Character::setLevelUpCounter()
 {
-  for (const auto &spellPtr : spellBook)
-  {
-    if (spellPtr->getSpellName() == spell)
-    {
-      return spellPtr;
-    }
-  }
-  return nullptr;
+  levelUpCounter += 1;
 }
+
+void Character::setDefense(int amount)
+{
+  defense = amount;
+}
+
+// Display methods
 
 string Character::displaySpellBook()
 {

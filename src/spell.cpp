@@ -22,6 +22,11 @@ SpellPower Spell::getSpellPower() const
   return spellPower;
 }
 
+SpellType Spell::getSpellType() const
+{
+  return spellType;
+};
+
 int Spell::calculatePower()
 {
   SpellPower power = getSpellPower();
@@ -41,7 +46,7 @@ Mend::Mend() : Spell("Heal", SpellPower::STARTER, ManaCost::ONE, SpellType::HEAL
 
 RazorLeaves::RazorLeaves() : Spell("Razor leaves", SpellPower::STARTER, ManaCost::ONE, SpellType::ATTACK) {};
 
-Bind::Bind() : Spell("Bind", SpellPower::STARTER, ManaCost::ONE, SpellType::DEFENCE) {};
+Bind::Bind() : Spell("Bind", SpellPower::STARTER, ManaCost::ONE, SpellType::DEFENSE) {};
 
 // Beginner
 Strangle::Strangle() : Spell("Stranlge", SpellPower::BEGINNER, ManaCost::ONE, SpellType::ATTACK) {};

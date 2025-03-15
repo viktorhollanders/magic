@@ -6,11 +6,16 @@ SRC     := src
 INCLUDE := include
 LIB     := lib
 OBJECTS := obj
-EXECUTABLE := main
+BIN     := bin
+EXECUTABLE := $(BIN)/main
 
-.PHONY: all run debug clean fresh test
+.PHONY: all run debug clean fresh test startGame
 
-all: $(EXECUTABLE)
+all: directories $(EXECUTABLE)
+
+# Create necessary directories
+directories:
+	@mkdir -p $(BIN) $(OBJECTS)
 
 $(EXECUTABLE): $(SRC)/*.cpp
 	@echo "🔧 Building..."
@@ -19,6 +24,11 @@ $(EXECUTABLE): $(SRC)/*.cpp
 run: clean all
 	@clear
 	@echo "🚀 Executing..."
+	@./$(EXECUTABLE)
+
+startGame: all
+	@clear
+	@echo "🎮 Starting game..."
 	@./$(EXECUTABLE)
 
 test:
@@ -30,3 +40,7 @@ debug: fresh all
 clean:
 	@echo "🧹 Clearing..."
 	-rm -f $(EXECUTABLE)
+
+fresh: clean
+	@echo "🧼 Deep cleaning..."
+	-rm -rf $(BIN) $(OBJECTS)
