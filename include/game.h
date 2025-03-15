@@ -18,6 +18,7 @@ private:
   const int numStarterSpells = 3;
   string clearCommand;
 
+
 protected:
   void choseSpells(shared_ptr<Character> character);
   void createCharacter();
@@ -29,6 +30,8 @@ public:
 
   // Clear screan
   void clearScrean();
+
+  void gameOptions(bool gameLoop);
 
   // Add players
   void addPlayers();

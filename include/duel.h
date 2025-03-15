@@ -25,13 +25,13 @@ private:
   void initializeDuel();
   void initialPlayer();
   void playRound();
+  shared_ptr<Spell> choseSpell();
   void applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell);
-  void switchPlayer(shared_ptr<Character> current);
-
   bool checkDuelOver() const;
+  void switchPlayer(shared_ptr<Character> current);
+  void displayWinner();
 
-  void applyDuelResults();
-  shared_ptr<Character> getWinner();
+  void canPlayerUpdate();
 };
 
 #endif

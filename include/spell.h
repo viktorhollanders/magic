@@ -5,6 +5,12 @@
 
 using namespace std;
 
+struct Range
+{
+  int min;
+  int max;
+};
+
 enum class SpellPower
 {
   STARTER,
@@ -20,10 +26,11 @@ enum class ManaCost
   THREE
 };
 
-struct Range
+enum class SpellType
 {
-  int min;
-  int max;
+  ATTACK,
+  DEFENCE,
+  HEAL
 };
 
 class Spell
@@ -32,6 +39,7 @@ protected:
   string spellName;
   SpellPower spellPower;
   ManaCost manaCost;
+  SpellType spellType;
 
   const map<SpellPower, Range> strenghtMap = {
       {SpellPower::STARTER, {0, 5}},
@@ -46,7 +54,7 @@ protected:
 
 public:
   Spell();
-  Spell(string name, SpellPower spellPower, ManaCost mana);
+  Spell(string name, SpellPower spellPower, ManaCost mana, SpellType spellType);
   ~Spell();
 
   string getSpellName() const;

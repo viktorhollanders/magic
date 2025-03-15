@@ -16,6 +16,7 @@ private:
   int mana;
   int level;
   vector<shared_ptr<Spell>> spellBook;
+  int updateCounter;
 
 protected:
   const string type;
@@ -36,7 +37,7 @@ public:
   int heal(int currentHealth, int heal);
   void addMana(int amount);
   int spendMana(int currentMana, int mana);
-  void levleUp();
+  void levleUp(int stats);
 
   // Getter methods for spells
   int spellCount() const;

@@ -117,7 +117,57 @@ void Game::duel()
 
     duel.initializeDuel();
 
-    
-    duel.playRound();
+    while (!duel.checkDuelOver())
+    {
+      duel.playRound();
+    }
+    duel.displayWinner();
+  }
+}
+
+void Game::gameOptions(bool gameLoop)
+{
+
+  vector<string> options = {"Play another tornument", "Quit"};
+
+  cout << "Options: " << endl;
+  for (int i = 0; i < 2; i++)
+  {
+    cout << i + 1 << ". " << options[i] << endl;
+  }
+
+  cout << "Chose: ";
+  int userChoice;
+  cin >> userChoice;
+
+  while (userChoice < 1 || userChoice > options.size() || cin.fail())
+  {
+    if (cin.fail())
+    {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    else
+    {
+      cin.ignore();
+    }
+    cout << "Invalid option. Pleas enter a number between 1 and " << (options.size()) << endl;
+    cout << "Options: " << endl;
+    for (int i = 0; i < 2; i++)
+    {
+      cout << i + 1 << ". " << options[i] << endl;
+    }
+
+    cout << "Chose: ";
+    cin >> userChoice;
+  }
+
+  if (options[userChoice] == " quit")
+  {
+    gameLoop = false;
+  }
+  else
+  {
+    return;
   }
 }

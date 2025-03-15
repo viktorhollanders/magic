@@ -5,6 +5,8 @@
 
 using namespace std;
 
+bool gameLoop = true;
+
 int main()
 {
   Game newGame;
@@ -14,7 +16,11 @@ int main()
 
   newGame.addPlayers();
 
-  newGame.duel();
+  while (gameLoop)
+  {
+    newGame.duel();
+    newGame.gameOptions(gameLoop);
+  }
 
   return 0;
 }

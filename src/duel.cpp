@@ -4,16 +4,15 @@
 #include "duel.h"
 #include "character.h"
 #include "spell.h"
+#include "utils.h"
 
 Duel::Duel(shared_ptr<Character> player1, shared_ptr<Character> player2) : p1(player1), p2(player2) {};
 Duel::~Duel() {};
 
 void Duel::initialPlayer()
 {
-  random_device rd;
-  mt19937 gen(rd());
-  uniform_int_distribution<> distrib(1, 2);
-  int num = distrib(gen);
+
+  int num = generateRandomNum(1, 2);
   currentPlayer = (num == 1) ? p1 : p2;
   currentTarget = (currentPlayer == p1) ? p2 : p1;
 };
@@ -36,20 +35,7 @@ void Duel::initializeDuel()
   initialPlayer();
 }
 
-
-void Duel::applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell)
-{
-  int &targetHealth = (target == p1) ? p1CurrentHealht : p2CurrentHealht;
-
-  int spellPower = spell->calculatePower();
-
-  targetHealth = target->takeDamage(targetHealth, spellPower);
-
-  cout << caster->getName() << " casts " << spell->getSpellName()
-       << "with power: " << spellPower << " on " << target->getName() << "!" << endl;
-};
-
-void Duel::playRound()
+shared_ptr<Spell> Duel::choseSpell()
 {
   auto playerSpellBook = currentPlayer->getSpellBook();
   string chosenSpellName;
@@ -89,15 +75,43 @@ void Duel::playRound()
 
   chosenSpellName = playerSpellBook[userChoice - 1]->getSpellName();
 
-  chosenSpell = currentPlayer->getSpell(chosenSpellName);
-
-  applySpellEffect(currentPlayer, currentTarget, chosenSpell);
-
-  cout << currentPlayer->displayPlayerInfo() << endl;
-  cout << currentTarget->displayPlayerInfo() << endl;
+  return chosenSpell = currentPlayer->getSpell(chosenSpellName);
 }
 
-bool Duel::checkDuelOver() const {
+void Duel::applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell)
+{
+  int &targetHealth = (target == p1) ? p1CurrentHealht : p2CurrentHealht;
+
+  int spellPower = spell->calculatePower();
+
+  targetHealth = target->takeDamage(targetHealth, spellPower);
+
+  cout << caster->getName() << " casts " << spell->getSpellName()
+       << "with power: " << spellPower << " on " << target->getName() << "!" << endl;
+};
+
+void Duel::playRound()
+{
+  shared_ptr<Spell> spell = choseSpell();
+
+  applySpellEffect(currentPlayer, currentTarget, spell);
+
+  cout << p1CurrentHealht << endl;
+  cout << p2CurrentHealht << endl;
+
+  if (p1CurrentHealht == 0 || p2CurrentHealht == 0)
+  {
+    duelFinished = true;
+  }
+
+  if (!checkDuelOver())
+  {
+    switchPlayer(currentPlayer);
+  }
+}
+
+bool Duel::checkDuelOver() const
+{
   return duelFinished;
 };
 
@@ -105,4 +119,12 @@ void Duel::switchPlayer(shared_ptr<Character> current)
 {
   currentPlayer = (current == p1) ? p2 : p1;
   currentTarget = (currentPlayer == p1) ? p2 : p1;
+};
+
+void Duel::displayWinner()
+{
+  shared_ptr<Character> winner = (p1CurrentHealht != 0) ? p2 : p1;
+  shared_ptr<Character> loser = (p1CurrentHealht == 0) ? p2 : p1;
+
+  cout << winner->getName() << " has won the tournument " << " against " << loser->getName() << endl;
 };
