@@ -116,7 +116,8 @@ void Game::duel()
     Duel duel(players[0], players[1]);
 
     duel.initializeDuel();
-    clearScrean();
+
+    
     duel.playRound();
   }
 }

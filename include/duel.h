@@ -9,12 +9,13 @@ class Duel
 private:
   shared_ptr<Character> p1;
   shared_ptr<Character> p2;
-  int p1CurrentHelaht;
-  int p2CurrentHelaht;
+  int p1CurrentHealht;
+  int p2CurrentHealht;
+  int p1CurrentMana;
+  int p2CurrentMana;
   bool duelFinished;
-  void initialPlayer();
 
-public:
+  public:
   Duel(shared_ptr<Character> player1, shared_ptr<Character> player2);
   ~Duel();
 
@@ -22,11 +23,13 @@ public:
   shared_ptr<Character> currentTarget;
 
   void initializeDuel();
+  void initialPlayer();
   void playRound();
-
-  void switchPlayer(shared_ptr<Character> current);
   void applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell);
-  bool checkDuelOver();
+  void switchPlayer(shared_ptr<Character> current);
+
+  bool checkDuelOver() const;
+
   void applyDuelResults();
   shared_ptr<Character> getWinner();
 };

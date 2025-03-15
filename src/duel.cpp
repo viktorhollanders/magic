@@ -20,35 +20,37 @@ void Duel::initialPlayer()
 
 void Duel::initializeDuel()
 {
-  p1CurrentHelaht = p1->getHealth();
-  p2CurrentHelaht = p2->getHealth();
+  p1CurrentHealht = p1->getHealth();
+  p2CurrentHealht = p2->getHealth();
+
+  p1CurrentMana = p1->getMana();
+  p2CurrentMana = p2->getMana();
 
   duelFinished = false;
 
   cout << "A duel starts between these wizards!" << endl;
-  cout << endl;
   cout << p1->displayPlayerInfo() << endl;
-  cout << endl;
   cout << "==VS==" << endl;
-  cout << endl;
   cout << p2->displayPlayerInfo() << endl;
+
   initialPlayer();
 }
 
-void Duel::switchPlayer(shared_ptr<Character> current)
-{
-  currentPlayer = (current == p1) ? p2 : p1;
-  currentTarget = (currentPlayer == p1) ? p2 : p1;
-};
 
 void Duel::applySpellEffect(shared_ptr<Character> caster, shared_ptr<Character> target, shared_ptr<Spell> spell)
 {
-  target->takeDamage(p2CurrentHelaht, spell->calculatePower());
+  int &targetHealth = (target == p1) ? p1CurrentHealht : p2CurrentHealht;
+
+  int spellPower = spell->calculatePower();
+
+  targetHealth = target->takeDamage(targetHealth, spellPower);
+
+  cout << caster->getName() << " casts " << spell->getSpellName()
+       << "with power: " << spellPower << " on " << target->getName() << "!" << endl;
 };
 
 void Duel::playRound()
 {
-
   auto playerSpellBook = currentPlayer->getSpellBook();
   string chosenSpellName;
   shared_ptr<Spell> chosenSpell;
@@ -77,19 +79,30 @@ void Duel::playRound()
     }
     cout << "Invalid option. Pleas enter a number between 1 and " << (playerSpellBook.size()) << endl;
     cout << "You can chose one of these " << playerSpellBook.size() << " spells" << endl;
-    for (int j = 0; j < playerSpellBook.size(); j++)
-      for (int i = 0; i < playerSpellBook.size(); i++)
-      {
-        cout << i + 1 << ". " << playerSpellBook[i]->getSpellName() << endl;
-      }
+
+    for (int i = 0; i < playerSpellBook.size(); i++)
+    {
+      cout << i + 1 << ". " << playerSpellBook[i]->getSpellName() << endl;
+    }
     cin >> userChoice;
   }
 
-  chosenSpellName = playerSpellBook[userChoice]->getSpellName();
+  chosenSpellName = playerSpellBook[userChoice - 1]->getSpellName();
 
   chosenSpell = currentPlayer->getSpell(chosenSpellName);
 
   applySpellEffect(currentPlayer, currentTarget, chosenSpell);
 
-  switchPlayer(currentPlayer);
+  cout << currentPlayer->displayPlayerInfo() << endl;
+  cout << currentTarget->displayPlayerInfo() << endl;
 }
+
+bool Duel::checkDuelOver() const {
+  return duelFinished;
+};
+
+void Duel::switchPlayer(shared_ptr<Character> current)
+{
+  currentPlayer = (current == p1) ? p2 : p1;
+  currentTarget = (currentPlayer == p1) ? p2 : p1;
+};

@@ -30,4 +30,3 @@ debug: fresh all
 clean:
 	@echo "🧹 Clearing..."
 	-rm -f $(EXECUTABLE)
-	-rm -rf $(OUTPUTDIR)/*

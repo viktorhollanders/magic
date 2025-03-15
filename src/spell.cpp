@@ -23,20 +23,19 @@ SpellPower Spell::getSpellPower() const
   return spellPower;
 }
 
-ManaCost Spell::getSpellMana() const {
-  return manaCost;
-}
-
 int Spell::calculatePower()
 {
   SpellPower power = getSpellPower();
+
+  auto it = strenghtMap.find(power);
+  int minPower = it->second.min;
+  int maxPower = it->second.max;
+
   random_device rd;
   mt19937 gen(rd());
-  int minDamage = strenghtMap.at(power).min;
-  int maxDamage = strenghtMap.at(power).max;
-  uniform_int_distribution<> distrib(minDamage, maxDamage);
-  int damage = distrib(gen);
-  return damage;
+  std::uniform_int_distribution<> distrib(minPower, maxPower);
+
+  return distrib(gen);
 }
 
 // SPELLS

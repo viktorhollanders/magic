@@ -34,6 +34,7 @@ protected:
   ManaCost manaCost;
 
   const map<SpellPower, Range> strenghtMap = {
+      {SpellPower::STARTER, {0, 5}},
       {SpellPower::BEGINNER, {0, 5}},
       {SpellPower::INTERMEDIATE, {6, 12}},
       {SpellPower::ADVANCED, {13, 20}}};
@@ -50,9 +51,8 @@ public:
 
   string getSpellName() const;
   SpellPower getSpellPower() const;
-  ManaCost getSpellMana() const;
 
-  virtual int calculatePower();
+  int calculatePower();
 };
 
 // SPELLS
